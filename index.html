@@ -67,7 +67,7 @@ let S={cut:4,adj:0,rec:[],goals:[],themes:[],log:[],rev:{},nt:{},tr:[{n:'الج�
 try{Object.assign(S,JSON.parse(localStorage.getItem('wg1')||'{}'))}catch(e){}
 if(!Array.isArray(S.secs))S.secs=[];const secs=()=>DS.concat(S.secs);const sv=()=>{S._t=Date.now();try{localStorage.setItem('wg1',JSON.stringify(S))}catch(e){}if(window.FB)FB.push()};
 window.onRemote=r=>{Object.assign(S,r);if(!Array.isArray(S.secs))S.secs=[];try{localStorage.setItem('wg1',JSON.stringify(S))}catch(e){}const a=document.activeElement;if(!a||!/INPUT|TEXTAREA|SELECT/.test(a.tagName))draw()};
-function acct(){const u=window.FBU;return`<section class="c"><h3>${ic('cloud',18)} الحساب والمزامنة</h3><div class="mu">${u?E(u)+' · '+E(window.SYNCST||''):'غير متصل'}</div><button class="b gh" style="width:100%;margin-top:8px" onclick="window.FB&&FB.out()">تسجيل الخروج</button></section>`}
+function acct(){const u=window.FBU;return`<section class="c"><h3>${ic('cloud',18)} الحساب والمزامنة</h3><div class="mu">${u?E(u)+' · '+'<span id="syn">'+'<span id="syn">'+E(window.SYNCST||'')+'</span>'+'</span>':'غير متصل'}</div><button class="b gh" style="width:100%;margin-top:8px" onclick="window.FB&&FB.out()">تسجيل الخروج</button></section>`}
 const $=i=>document.getElementById(i),E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const U=(y,m,d)=>Date.UTC(y,m,d)/D;
 const now=()=>{const n=new Date(Date.now()-S.cut*36e5);return U(n.getFullYear(),n.getMonth(),n.getDate())};
@@ -237,7 +237,7 @@ import{getFirestore,doc,setDoc,onSnapshot}from"https://www.gstatic.com/firebasej
 const app=initializeApp({apiKey:"AIzaSyAnM6icCmuPsA1iEdwKv3roosTgXUY8R10",authDomain:"weekly-planner-fb9ea.firebaseapp.com",projectId:"weekly-planner-fb9ea",storageBucket:"weekly-planner-fb9ea.firebasestorage.app",messagingSenderId:"653262524655",appId:"1:653262524655:web:bd4a76238d9194098e0b1a"});
 const auth=getAuth(app),db=getFirestore(app),lg=document.getElementById('lg');
 let ref=null,unsub=null,pt;
-const st=t=>{window.SYNCST=t;if(T=='s')draw()};
+const st=t=>{window.SYNCST=t;const e=document.getElementById('syn');if(e)e.textContent=t};
 const doPush=async()=>{if(!ref)return;try{st('جاري الحفظ…');await setDoc(ref,{json:JSON.stringify(S),t:S._t||Date.now()});st('متزامن')}catch(e){st('تعذّرت المزامنة');toast('تعذّرت المزامنة')}};
 window.FB={push(){clearTimeout(pt);pt=setTimeout(doPush,800)},out(){signOut(auth)},async login(){try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){toast('تعذّر تسجيل الدخول')}}};
 onAuthStateChanged(auth,u=>{
