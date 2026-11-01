@@ -120,7 +120,7 @@ o+=`<section class="c"><h2>مواسم الطاعات</h2>${inf("العد الت�
 return o+`<section class="c"><b class="fl">${ic('flame',18)} مراجعة متتالية: ${streak()} يوم</b>${inf("بتزيد كل يوم تدوسي فيه زرار خلصت مراجعة النهارده في تاب الأسبوع. لو فوتي يوم بترجع للصفر.")}</section>`}
 
 const inf=t=>`<button class="i" onclick="this.nextElementSibling.classList.toggle('s')">${ic('info',18)}</button><div class="tp">${t}</div>`;
-function ens(){const n=now();[0,7].forEach(o=>{const k=iso(ws(n)+o);S.rec.forEach(r=>{if(!S.goals.some(g=>g.rid==r.id&&g.wk==k))S.goals.push({id:Date.now()+''+Math.floor(Math.random()*9999),rid:r.id,wk:k,sec:r.sec,sub:r.sub,t:r.t,tg:r.tg,c:0,st:'todo',det:''})})});sv()}
+function ens(){let ch=0;const n=now();[0,7].forEach(o=>{const k=iso(ws(n)+o);S.rec.forEach(r=>{if(!S.goals.some(g=>g.rid==r.id&&g.wk==k)){ch=1;S.goals.push({id:Date.now()+''+Math.floor(Math.random()*9999),rid:r.id,wk:k,sec:r.sec,sub:r.sub,t:r.t,tg:r.tg,c:0,st:'todo',det:''})}})});if(ch)sv()}
 function dtl(g){const p=g.rid&&S.goals.find(h=>h.rid==g.rid&&h.wk==iso(pd(g.wk)-7)&&h.det);return`<input value="${E(g.det||'')}" placeholder="التفصيل هذا الأسبوع (مثلاً: صفحة 101–200)" onchange="sd('${g.id}',this.value)">${p?`<div class="mu">الأسبوع اللي فات: ${E(p.det)}</div>`:''}`}
 function sd(id,v){S.goals.find(g=>g.id==id).det=v.trim();sv();toast('اتحفظ ')}
 function recSec(){return S.rec.length?`<section class="c"><h3>${ic('repeat',18)} الأهداف الثابتة</h3>${S.rec.map((r,i)=>`<div class="si"><span>${E(r.t)}${r.tg>1?` ×${r.tg}`:''} <span class="mu">${E(r.sec)}</span></span><button class="gh" style="border:0;border-radius:10px" onclick="stopR(${i})">إيقاف</button></div>`).join('')}</section>`:''}
